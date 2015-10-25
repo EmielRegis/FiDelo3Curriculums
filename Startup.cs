@@ -23,10 +23,10 @@ namespace FiDeLo3.Resources.Curriculums
         public void ConfigureServices(IServiceCollection services)
         {
             // Uncomment following line to enable in memory storing for EntityFramework7
-            services.AddEntityFramework().AddInMemoryDatabase().AddDbContext<CurriculumsDbContext>(options => options.UseInMemoryDatabase());
+            //  services.AddEntityFramework().AddInMemoryDatabase().AddDbContext<CurriculumsDbContext>(options => options.UseInMemoryDatabase());
             
             // Uncomment following line to enable SqLite adapter for EntityFramework7        
-            //  services.AddEntityFramework().AddSqlite().AddDbContext<CurriculumsDbContext>(options => options.UseSqlite("Data Source=curriculumsDataBase.sqlite;"));
+            services.AddEntityFramework().AddSqlite().AddDbContext<CurriculumsDbContext>(options => options.UseSqlite("Data Source=curriculumsDataBase.sqlite;"));
             
             // Uncomment following line to enable in PostgreSql adapter for EntityFramework7         
             //  services.AddEntityFramework().AddNpgsql().AddDbContext<CurriculumsDbContext>(options => options.UseNpgsql("connectionString"));
@@ -35,6 +35,12 @@ namespace FiDeLo3.Resources.Curriculums
             services.AddMvc()
             .AddJsonOptions(option => option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             //   .AddJsonOptions(option => option.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects);
+        
+            services.AddCors(x => x.AddPolicy("AllowAll", p => {
+                p.AllowAnyHeader();
+                p.AllowAnyMethod();
+                p.AllowAnyOrigin();
+            }));
         }
 
         // Configure is called after ConfigureServices is called.
@@ -64,6 +70,8 @@ namespace FiDeLo3.Resources.Curriculums
                 if (dbContext.Curriculums.Any())
                 {
                     dbContext.Curriculums.RemoveRange(dbContext.Curriculums);
+                    dbContext.Semesters.RemoveRange(dbContext.Semesters);
+                    dbContext.Courses.RemoveRange(dbContext.Courses);                    
                     dbContext.SaveChanges();                    
                 }
                     

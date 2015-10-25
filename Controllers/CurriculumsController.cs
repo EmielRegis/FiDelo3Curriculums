@@ -6,10 +6,12 @@ using Microsoft.AspNet.Mvc;
 using FiDeLo3.Resources.Curriculums.Contract;
 using FiDeLo3.Resources.Curriculums.Models;
 using Microsoft.Framework.Logging;
+using Microsoft.AspNet.Cors.Core;
 
 namespace FiDeLo3.Resources.Curriculums.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowAll")]
     public class CurriculumsController : Controller
     {
         private readonly CurriculumsDbContext _dbContext;

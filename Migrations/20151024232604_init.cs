@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace FiDeLo3.Resources.Curriculums.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,8 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    CycleOfStudies = table.Column<uint>(nullable: false),
+                    IsFullTime = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -26,7 +28,8 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CurriculumId = table.Column<int>(nullable: true)
+                    CurriculumId = table.Column<int>(nullable: false),
+                    OrderNumber = table.Column<uint>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,11 +50,13 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                     CourseProvider = table.Column<int>(nullable: false),
                     EctsPoints = table.Column<ushort>(nullable: false),
                     HasExam = table.Column<bool>(nullable: false),
+                    IsForeignLanguage = table.Column<bool>(nullable: false),
+                    IsSportType = table.Column<bool>(nullable: false),
                     LaboratoriesHours = table.Column<uint>(nullable: false),
                     LectureHours = table.Column<uint>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ProjectHours = table.Column<uint>(nullable: false),
-                    SemesterId = table.Column<int>(nullable: true)
+                    SemesterId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

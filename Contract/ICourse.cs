@@ -38,10 +38,15 @@ namespace FiDeLo3.Resources.Curriculums.Contract
         /// How many ECTS credits the course has.
         /// </summary>
         ushort EctsPoints { get; set; }
+        
+        int SemesterId { get; set; }
+
 
         /// <summary>
         /// Faculty type which realize the course.
         /// </summary>
         CourseProviderType CourseProvider { get; set; }
+        
+
     }
 }

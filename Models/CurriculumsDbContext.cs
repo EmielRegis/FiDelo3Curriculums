@@ -6,6 +6,10 @@ namespace FiDeLo3.Resources.Curriculums.Models
 	public class CurriculumsDbContext : DbContext
 	{
 		public DbSet<Curriculum> Curriculums { get; set; }
+		public DbSet<Semester> Semesters { get; set; }
+
+		public DbSet<Course> Courses { get; set; }
+		
 		
 		public CurriculumsDbContext (DbContextOptions options)
         : base(options)

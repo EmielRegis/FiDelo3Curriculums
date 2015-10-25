@@ -8,8 +8,8 @@ using FiDeLo3.Resources.Curriculums.Models;
 namespace FiDeLo3.Resources.Curriculums.Migrations
 {
     [DbContext(typeof(CurriculumsDbContext))]
-    [Migration("20151020192122_initial")]
-    partial class initial
+    [Migration("20151024232604_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,10 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
 
                     b.Property<bool>("HasExam");
 
+                    b.Property<bool>("IsForeignLanguage");
+
+                    b.Property<bool>("IsSportType");
+
                     b.Property<uint>("LaboratoriesHours");
 
                     b.Property<uint>("LectureHours");
@@ -37,7 +41,7 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
 
                     b.Property<uint>("ProjectHours");
 
-                    b.Property<int?>("SemesterId");
+                    b.Property<int>("SemesterId");
 
                     b.HasKey("Id");
                 });
@@ -46,6 +50,10 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<uint>("CycleOfStudies");
+
+                    b.Property<bool>("IsFullTime");
 
                     b.Property<string>("Name");
 
@@ -57,7 +65,9 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CurriculumId");
+                    b.Property<int>("CurriculumId");
+
+                    b.Property<uint>("OrderNumber");
 
                     b.HasKey("Id");
                 });

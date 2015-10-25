@@ -8,7 +8,6 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Data.Entity;
 using FiDeLo3.Resources.Curriculums.Models;
-using Microsoft.AspNet.Mvc.Formatters;
 using Newtonsoft.Json.Serialization;
 
 namespace FiDeLo3.Resources.Curriculums
@@ -24,19 +23,18 @@ namespace FiDeLo3.Resources.Curriculums
         public void ConfigureServices(IServiceCollection services)
         {
             // Uncomment following line to enable in memory storing for EntityFramework7
-            //  services.AddEntityFramework().AddInMemoryDatabase().AddDbContext<CurriculumsDbContext>(options => options.UseInMemoryDatabase());
+            services.AddEntityFramework().AddInMemoryDatabase().AddDbContext<CurriculumsDbContext>(options => options.UseInMemoryDatabase());
+            
             // Uncomment following line to enable SqLite adapter for EntityFramework7        
-            services.AddEntityFramework().AddSqlite().AddDbContext<CurriculumsDbContext>(options => options.UseSqlite("Data Source=curriculumsDataBase.sqlite;"));
+            //  services.AddEntityFramework().AddSqlite().AddDbContext<CurriculumsDbContext>(options => options.UseSqlite("Data Source=curriculumsDataBase.sqlite;"));
             
             // Uncomment following line to enable in PostgreSql adapter for EntityFramework7         
             //  services.AddEntityFramework().AddNpgsql().AddDbContext<CurriculumsDbContext>(options => options.UseNpgsql("connectionString"));
             
             // Adding mvc and serialization / json rules
-            services.AddMvc().AddJsonOptions(option => option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
-            
-            // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
-            // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
-            // services.AddWebApiConventions();
+            services.AddMvc()
+            .AddJsonOptions(option => option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+            //   .AddJsonOptions(option => option.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects);
         }
 
         // Configure is called after ConfigureServices is called.
@@ -46,8 +44,6 @@ namespace FiDeLo3.Resources.Curriculums
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
             
-            
-
             // Add the platform handler to the request pipeline.
             app.UseIISPlatformHandler();
 
@@ -56,13 +52,11 @@ namespace FiDeLo3.Resources.Curriculums
 
             // Add MVC to the request pipeline.
             app.UseMvc();
-            // Add the following route for porting Web API 2 controllers.
-            // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             
             CreateMockedData(app.ApplicationServices).Wait();
         }
         
-        /// Injecting some 
+        /// Injecting some extra mocked data at the server start
         private static async Task CreateMockedData(IServiceProvider applicationServices)
         {
             using (var dbContext = applicationServices.GetService<CurriculumsDbContext>())
@@ -73,11 +67,39 @@ namespace FiDeLo3.Resources.Curriculums
                     dbContext.SaveChanges();                    
                 }
                     
+                
+                
+                
+                var semester = new Semester 
+                {
+                    Id = 23,
+                    CurriculumId = 10,
+                    OrderNumber = 1,
+                    Courses = 
+                    {
+                        new Course
+                        {
+                            Id = 0,
+                            Name = "Sieci Komputerowe",
+                            LectureHours = 16,
+                            ClassesHours = 0,
+                            LaboratoriesHours  = 16,
+                            HasExam = true,
+                            EctsPoints = 5,
+                            IsForeignLanguage = false,
+                            IsSportType = false
+                        }
+                    }
+                };
+                
                 var curriculums = new List<Curriculum>
                 {
-                    new Curriculum {Id = 10, Name="Curriculum Inf Bachelors"},
-                    new Curriculum {Id = 11, Name="Curriculum Inf Master Thesis"},
-                    new Curriculum {Id = 12, Name="Curriculum Inf Other"}
+                    new Curriculum 
+                    {
+                        Id = 10, 
+                        Name = "Curriculum Inf Bachelors",
+                        Semesters = new[]{ semester }
+                    }
                 };
                 curriculums.ForEach(m => dbContext.Curriculums.Add(m));
                 dbContext.SaveChanges();

@@ -1,4 +1,5 @@
 ﻿using FiDeLo3.Resources.Curriculums.Contract;
+using Newtonsoft.Json;
 
 namespace FiDeLo3.Resources.Curriculums.Models
 {
@@ -42,10 +43,19 @@ namespace FiDeLo3.Resources.Curriculums.Models
         /// How many ECTS credits the course has.
         /// </summary>
         public ushort EctsPoints { get; set; }
+        
+        public bool IsSportType { get; set; }
+        
+        public bool IsForeignLanguage { get; set; }
 
         /// <summary>
         /// Faculty type which realize the course.
         /// </summary>
         public CourseProviderType CourseProvider { get; set; }
+        
+        public int SemesterId { get; set; }
+        [JsonIgnore]
+        public Semester Semester { get; set; }
+        
     }
 }

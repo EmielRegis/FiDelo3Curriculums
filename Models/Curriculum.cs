@@ -5,6 +5,11 @@ namespace FiDeLo3.Resources.Curriculums.Models
 {
     public class Curriculum
     {
+        public Curriculum()
+        {
+            Semesters = new List<Semester>();
+        }
+        
         public int Id { get; set; }
         /// <summary>
         /// Name of the course
@@ -15,7 +20,24 @@ namespace FiDeLo3.Resources.Curriculums.Models
         /// Indicates if the couse has an Exam
         /// </summary>
         
-        public virtual ICollection<Semester> Semesters { get; set; }
+        public bool IsFullTime { get; set; }
+        
+        public uint CycleOfStudies 
+        {
+             get
+             {
+                 return _cycleOfStudies;
+             }
+             
+             set 
+             {
+                 if (value < 3)
+                    _cycleOfStudies = value;
+             }
+        }
+        private uint _cycleOfStudies;
+        
+        public ICollection<Semester> Semesters { get; set; }
        
     }
 }

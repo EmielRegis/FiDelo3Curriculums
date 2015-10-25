@@ -28,6 +28,10 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
 
                     b.Property<bool>("HasExam");
 
+                    b.Property<bool>("IsForeignLanguage");
+
+                    b.Property<bool>("IsSportType");
+
                     b.Property<uint>("LaboratoriesHours");
 
                     b.Property<uint>("LectureHours");
@@ -36,7 +40,7 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
 
                     b.Property<uint>("ProjectHours");
 
-                    b.Property<int?>("SemesterId");
+                    b.Property<int>("SemesterId");
 
                     b.HasKey("Id");
                 });
@@ -45,6 +49,10 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<uint>("CycleOfStudies");
+
+                    b.Property<bool>("IsFullTime");
 
                     b.Property<string>("Name");
 
@@ -56,7 +64,9 @@ namespace FiDeLo3.Resources.Curriculums.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CurriculumId");
+                    b.Property<int>("CurriculumId");
+
+                    b.Property<uint>("OrderNumber");
 
                     b.HasKey("Id");
                 });

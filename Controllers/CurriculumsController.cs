@@ -25,14 +25,32 @@ namespace FiDeLo3.Resources.Curriculums.Controllers
         [HttpGet]
         public IEnumerable<Curriculum> Get()
         {
-            return _dbContext.Curriculums;
+            var curriculums =  _dbContext.Curriculums.ToList();
+            foreach(var curriculum in curriculums)
+            {
+                var semesters = _dbContext.Semesters.Where(s => s.CurriculumId == curriculum.Id).ToList();
+                foreach(var semester in semesters)
+                {
+                    semester.Courses = _dbContext.Courses.Where(cs => cs.SemesterId == semester.Id).ToList();
+                }
+                curriculum.Semesters = semesters;
+            }
+            
+            return curriculums;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public Curriculum Get(int id)
         {           
-            return _dbContext.Curriculums.FirstOrDefault(c => c.Id == id);
+            var curriculum =  _dbContext.Curriculums.FirstOrDefault(c => c.Id == id);
+            var semesters = _dbContext.Semesters.Where(s => s.CurriculumId == id).ToList();
+            foreach(var semester in semesters)
+            {
+                semester.Courses = _dbContext.Courses.Where(cs => cs.SemesterId == semester.Id).ToList();
+            }
+            curriculum.Semesters = semesters;
+            return curriculum;
         }
 
         //  // POST api/values
